@@ -4,7 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, Button, Image, TextInput, Pressable } from 'react-native';
+import { View, Text, Button, Image, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import { useInsertProduct } from '~/api/products';
 
 import { supabase } from '~/utils/supabase';
@@ -18,7 +18,9 @@ const CreateProductScreen = () => {
 
   const router = useRouter();
 
-  const { mutateAsync: insertProduct } = useInsertProduct();
+  const { mutateAsync: insertProduct, isPending } = useInsertProduct();
+
+  
 
   // function to pick image from device
   const pickImage = async () => {
@@ -60,7 +62,7 @@ const CreateProductScreen = () => {
         .getPublicUrl(filePath);
 
       if (publicUrlData) {
-        return publicUrlData.publicUrl; // Return the public URL
+        return publicUrlData.publicUrl; 
       }
     }
 
@@ -90,14 +92,14 @@ const CreateProductScreen = () => {
     return true;
   };
 
-  // function to submit form to insert product into supabase
+  
   const handleCreate = async () => {
     if (!validateInputs()) {
       return;
     }
     const imagePath = await uploadImage();
 
-    insertProduct(
+    await insertProduct(
       { name, price: parseFloat(price), image: imagePath, description: desc },
       {
         onSuccess: () => {
@@ -107,6 +109,17 @@ const CreateProductScreen = () => {
       }
     );
   };
+
+  
+
+  if (isPending) {
+      return (
+        <View className="flex-1 items-center justify-center gap-2">
+          <ActivityIndicator size="large" />
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
 
   return (
     <View className="gap-3 p-4">

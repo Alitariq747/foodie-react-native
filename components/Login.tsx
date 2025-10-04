@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, Alert, TextInput, Pressable } from 'react-native';
+import { View, Text, Alert, TextInput, Pressable, ActivityIndicator } from 'react-native';
 
 import { useAuth } from '~/Providers/AuthProvider';
 import { supabase } from '~/utils/supabase';
@@ -56,6 +56,15 @@ const Login = () => {
     setPassword('');
   };
 
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center gap-2">
+        <ActivityIndicator size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View className="gap-4 bg-white p-4">
       <View className="flex-col gap-2">
@@ -65,7 +74,7 @@ const Login = () => {
           placeholder="e.g abc@email.com"
           onChangeText={setEmail}
           className="rounded-lg border border-slate-500 bg-white px-2 py-3 hover:border-red-900"
-          autoCapitalize='none'
+          autoCapitalize="none"
         />
       </View>
       <View className="flex-col gap-2">
@@ -75,7 +84,7 @@ const Login = () => {
           placeholder="********"
           onChangeText={setPassword}
           className="rounded-lg border border-slate-500 bg-white px-2 py-3 hover:border-red-900"
-          autoCapitalize='none'
+          autoCapitalize="none"
           secureTextEntry
         />
       </View>

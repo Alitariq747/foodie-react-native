@@ -53,6 +53,15 @@ const SignUp = () => {
     router.push('/(user)/menu');
   };
 
+    if (loading) {
+      return (
+        <View className="flex-1 items-center justify-center gap-2">
+          <ActivityIndicator size="large" />
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
   return (
     <View className="gap-4 bg-white p-4">
       <View className="flex-col gap-2">

@@ -92,7 +92,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         },
       });
     } catch (error) {
-      console.log('Error creating order...');
+      console.log('Error creating order...', error);
     }
   };
 
